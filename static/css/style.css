@@ -348,3 +348,13 @@ div.btn-outline-hover > a.btn-outline-light:hover {
   border: 1px solid rgba(1, 40, 1, 0.387);
   color: rgb(81, 128, 68);
 }
+
+/* product detail 스크롤 바 안보이게 하기 */
+.detail-image_list-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.detail-image_list-scroll::-webkit-scrollbar {
+  display: none;
+}

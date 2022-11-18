@@ -87,10 +87,7 @@ def review_update(request, product_pk, review_pk):
         messages.warning(request, "작성자만 수정할 수 있습니다.")
         return redirect("products:detail", product_pk)
 
-# 분기처리는 result 0이면 댓글 아니면 대댓글
-#  if result:
-#         print(request.POST['parent'])
-# elif  result == 0 : print(0)
+
 def comment_create(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     result = request.POST['parent']
@@ -107,7 +104,6 @@ def comment_create(request, review_pk):
                     comment.user = request.user
                     # 저장
                     comment.save()
-                    
                     context = {
                         "review_pk": review_pk,
                         "comment_pk": comment.pk,
@@ -117,6 +113,7 @@ def comment_create(request, review_pk):
                     return JsonResponse(context)
                 
             elif int(result) > 0 :
+
                 comment_form = CommentForm(request.POST) # POST으로 요청온 정보를 받아서
                 if comment_form.is_valid(): # 유효성 검사하고
                     comment = comment_form.save(commit=False) # 저장 멈춰
@@ -126,11 +123,13 @@ def comment_create(request, review_pk):
                     comment.parent_id = result
                     # 저장
                     comment.save()
-                    image = 0
+                    image = '/static/images/profiledetail.png'
+                    #print(comment.user,request.user)
+                    
                     if request.user.profile_image:
                         image = request.user.profile_image.url
-                        
                     context = {
+                        "recom_pk":comment.parent_id,
                         "review_pk": review_pk,
                         "comment_pk": comment.pk,
                         "content": comment.content,
